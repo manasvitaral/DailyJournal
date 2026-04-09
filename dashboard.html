@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Daily Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="dashboard-nav">
+    <h1>Daily Journal</h1>
+
+    <div>
+      <span id="userName">Loading...</span>
+      <button onclick="window.location.href='profile.html'" class="btn-outline">Profile</button>
+      <button id="logoutBtn" class="btn-outline">Logout</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="dashboard-container">
+
+    <h2 id="greetingText">Welcome 👋</h2>
+
+    <div class="dashboard-cards">
+
+      <div class="card">
+        <h3>Today's Entry</h3>
+        <p>Write your journal for today</p>
+        <button class="btn-primary" onclick="window.location.href='entry.html'">Open</button>
+      </div>
+
+      <div class="card">
+        <h3>Your Streak</h3>
+        <p id="streakText">Loading...</p>
+      </div>
+
+      <!--
+      <div class="card">
+        <h3>Profile</h3>
+        <p>Update your personal details</p>
+        <button class="btn-outline" onclick="window.location.href='profile.html'">Edit</button>
+      </div>
+    -->
+
+    </div>
+
+  </div>
+
+<script src="logic.js"></script>
+
+</body>
+</html>

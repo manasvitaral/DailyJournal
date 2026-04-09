@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Write Entry | Daily Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="dashboard-nav">
+  <h1>Daily Journal</h1>
+
+  <div class="nav-actions">
+    <button onclick="window.location.href='dashboard.html'" class="btn-outline">
+      Dashboard
+    </button>
+    <button onclick="window.location.href='profile.html'" class="btn-outline">
+      Profile
+    </button>
+    <button id="logoutBtn" class="btn-outline">Logout</button>
+  </div>
+</nav>
+
+<!-- MAIN CONTAINER -->
+<div class="entry-container">
+
+  <h2>Today's Entry ✍️</h2>
+
+  <!-- 🌙 Sleep -->
+  <div class="entry-section">
+    <h3>🌙 Sleep</h3>
+
+    <div class="grid-3">
+      <label> Wake Up Time<input type="time" id="wake_time"></label>
+      <input type="number" step="0.1" id="sleep_duration" placeholder="Hours slept">
+      <input type="number" id="sleep_quality" min="1" max="5" placeholder="Quality (1-5)">
+    </div>
+  </div>
+
+  <!-- 😊 Mood -->
+  <div class="entry-section">
+    <h3>😊 Mood</h3>
+
+    <div class="grid-2">
+      <select id="mood">
+        <option value="">Select mood</option>
+        <option>😊 Happy</option>
+        <option>😐 Neutral</option>
+        <option>😔 Sad</option>
+      </select>
+
+      <input type="number" id="rating" min="1" max="10" placeholder="Day rating (1-10)">
+    </div>
+  </div>
+
+  <!-- 💧 Health -->
+  <div class="entry-section">
+    <h3>💧 Health</h3>
+    <input type="number" id="water_intake" placeholder="Glasses of water">
+  </div>
+
+  <!--  
+  <div class="entry-section">
+        <h3>🍽️ Meals</h3>
+    
+        <!- Breakfast ->
+        <div class="meal-box">
+            <label>
+                <input type="checkbox" id="breakfast"> Breakfast
+            </label>
+            <input type="number" id="breakfast_rating" min="1" max="5" placeholder="Rating (1-5)">
+            <input type="text" id="breakfast_note" placeholder="Notes">
+        </div>
+    
+        <!- Lunch ->
+        <div class="meal-box">
+            <label>
+                <input type="checkbox" id="lunch"> Lunch
+            </label>
+            <input type="number" id="lunch_rating" min="1" max="5">
+            <input type="text" id="lunch_note">
+        </div>
+    
+        <!- Dinner ->
+        <div class="meal-box">
+            <label>
+                <input type="checkbox" id="dinner"> Dinner
+            </label>
+            <input type="number" id="dinner_rating" min="1" max="5">
+            <input type="text" id="dinner_note">
+        </div>
+    </div>
+  -->
+    <div class="entry-section">
+      <h3>🍽️ Meals</h3>
+      
+      <!-- Breakfast -->
+       <div class="meal-box">
+        <label>
+          <input type="checkbox" id="breakfast"> Breakfast
+        </label>
+        
+        <div id="breakfast_fields" class="meal-fields">
+          <input type="number" id="breakfast_rating" min="1" max="5" placeholder="Rating (1-5)">
+          <input type="text" id="breakfast_note" placeholder="Notes">
+        </div>
+      </div>
+      
+      <!-- Lunch -->
+      <div class="meal-box">
+        <label>
+          <input type="checkbox" id="lunch"> Lunch
+        </label>
+        
+        <div id="lunch_fields" class="meal-fields">
+          <input type="number" id="lunch_rating" min="1" max="5">
+          <input type="text" id="lunch_note">
+        </div>
+      </div>
+      
+      <!-- Dinner -->
+      <div class="meal-box">
+        <label>
+          <input type="checkbox" id="dinner"> Dinner
+        </label>
+        
+        <div id="dinner_fields" class="meal-fields">
+          <input type="number" id="dinner_rating" min="1" max="5">
+          <input type="text" id="dinner_note">
+        </div>
+      </div>
+    </div>
+
+    <div class="entry-section">
+        <h3>🏃 Exercise & Activities</h3>
+        
+        <input type="number" step="0.1" id="exercise_duration" placeholder="Hours exercised">
+
+        <select id="exercise_type">
+            <option value="">Select type</option>
+            <option>Arms</option>
+            <option>Chest</option>
+            <option>Legs</option>
+            <option>Cardio</option>
+            <option>Yoga</option>
+            <option>Other</option>
+        </select>
+        
+        <!-- Activities -->
+        <div class="activity-group">
+            <label><input type="checkbox" value="Movie"> Watched movie</label>
+            <label><input type="checkbox" value="Reading"> Read book</label>
+            <label><input type="checkbox" value="Travel"> Visited place</label>
+            <label><input type="checkbox" value="Social"> Social gathering</label>
+        </div>
+        
+        <input type="text" id="custom_activity" placeholder="Other activity">
+    </div>
+
+  <!-- 🙏 Gratitude -->
+  <div class="entry-section">
+    <h3>🙏 Gratitude</h3>
+
+    <input type="text" id="gratitude1" placeholder="Grateful for...">
+    <input type="text" id="gratitude2">
+    <input type="text" id="gratitude3">
+  </div>
+
+  <!-- ✍️ Journal -->
+  <div class="entry-section">
+    <h3>✍️ Journal</h3>
+
+    <textarea id="journal_text" placeholder="Write your thoughts..."></textarea>
+    <textarea id="daily_prompt" placeholder="Daily prompt (optional)"></textarea>
+  </div>
+
+  <!-- 🖼️ Image -->
+  <div class="entry-section">
+    <h3>🖼️ Add Image</h3>
+
+    <input type="file" id="image">
+    <img id="imagePreview" class="image-preview" />
+  </div>
+
+  <!-- SAVE BUTTON -->
+  <button id="saveEntryBtn" class="btn-primary btn-block">
+    Save Entry
+  </button>
+
+</div>
+
+<script src="logic.js"></script>
+
+</body>
+</html>
