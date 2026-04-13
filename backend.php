@@ -349,15 +349,11 @@ if ($action === "updateProfile") {
         echo json_encode(["success" => true, "message" => "Profile updated"]);
     } else {
         echo json_encode(["success" => false, "message" => "Update failed"]);
+        exit;
     }
 
     exit;
 }
-// ===== INVALID REQUEST =====
-echo json_encode([
-    "success" => false,
-    "message" => "Invalid request"
-]);
 
 // ================= DASHBOARD =================
 
@@ -408,7 +404,13 @@ if ($action === "saveEntry") {
     }
 
     $userId = $_SESSION['user_id'];
-    $date = date("Y-m-d");
+    /* $date = date("Y-m-d"); */
+    $date = $_POST['entry_date'] ?? date("Y-m-d");
+
+    if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $date)) {
+    echo json_encode(["success" => false, "message" => "Invalid date"]);
+    exit;
+    }
 
     // 🌙 Sleep
     $wake_time = $_POST['wake_time'] ?? null;
@@ -512,17 +514,7 @@ if ($action === "saveEntry") {
         $dinner_rating, $dinner_note, $exercise_duration, $exercise_type, $activities, $custom_activity,
         $gratitude1, $gratitude2, $gratitude3, $journal_text, $daily_prompt, $imagePath);}
         
-        /*if ($stmt->execute()) {
-            echo json_encode(["success" => true]);
-        } else {
-            echo json_encode([
-                "success" => false,
-                "error" => $stmt->error
-            ]);
-                
-        }
-
-        exit; // ✅ VERY IMPORTANT*/
+        
     if ($stmt->execute()) {
         echo json_encode(["success" => true]);
     } else {
@@ -532,8 +524,8 @@ if ($action === "saveEntry") {
         ]);
     }
 
-    exit; // 🔥 THIS IS CRITICAL
-                    }
+    exit; 
+                    }    
 
 // ================= SAVE ENTRY =================
 
@@ -649,5 +641,15 @@ if ($action === "logout") {
     exit;
 }
 // ================= LOGOUT =================
+
+// ===== INVALID REQUEST =====
+
+echo json_encode([
+    "success" => false,
+    "message" => "Invalid request"
+]);
+exit;
+
+// ===== INVALID REQUEST =====
 
 // ================= DASHBOARD =================

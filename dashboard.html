@@ -9,7 +9,7 @@
 
 <body>
 
-  <!-- NAVBAR -->
+  <!-- NAVBAR 
   <nav class="dashboard-nav">
     <h1>Daily Journal</h1>
 
@@ -18,8 +18,30 @@
       <button onclick="window.location.href='profile.html'" class="btn-outline">Profile</button>
       <button id="logoutBtn" class="btn-outline">Logout</button>
     </div>
-  </nav>
+  </nav> 
+  -->
 
+  <nav class="dashboard-nav">
+    <h1>Daily Journal</h1>
+    
+    <div class="nav-right">
+      
+      <!-- USER INFO (optional: name beside avatar) -->
+      <span id="userName">Loading...</span>
+
+      <!-- AVATAR DROPDOWN -->
+      <div class="avatar-wrapper">
+        <img id="navProfilePic" src="https://via.placeholder.com/40" class="nav-profile-pic">
+
+        <div class="dropdown-menu" id="dropdownMenu">
+          <button onclick="goToProfile()">👤 Profile</button>
+          <button id="logoutBtn">🚪 Logout</button>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+  
   <!-- MAIN -->
   <div class="dashboard-container">
 
@@ -27,16 +49,36 @@
 
     <div class="dashboard-cards">
 
-      <div class="card">
-        <h3>Today's Entry</h3>
-        <p>Write your journal for today</p>
-        <button class="btn-primary" onclick="window.location.href='entry.html'">Open</button>
+      <div class="top-cards">
+        <div class="card">
+          <h3>Today's Entry</h3>
+          <p>Write your journal for today</p>
+          <button class="btn-primary" onclick="window.location.href='entry.html'">Open</button>
+        </div>
+
+        <div class="card">
+          <h3>Your Streak</h3>
+          <p id="streakText">Loading...</p>
+        </div>
       </div>
 
+      <div class="calendar-card">
+        <div class="calendar-header">
+          <button id="prevMonth">◀</button>
+          <h3 id="calendarMonth"></h3>
+          <button id="nextMonth">▶</button>
+        </div>
+
+  <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+      <!--
       <div class="card">
-        <h3>Your Streak</h3>
-        <p id="streakText">Loading...</p>
+        <h3>Select Date</h3>
+        <input type="date" id="calendarInput">
+        <button class="btn-primary" onclick="openSelectedDate()">Open Entry</button>
       </div>
+    -->
 
       <!--
       <div class="card">

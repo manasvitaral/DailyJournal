@@ -27,7 +27,7 @@
 <!-- MAIN CONTAINER -->
 <div class="entry-container">
 
-  <h2>Today's Entry ✍️</h2>
+  <h2 id="entryTitle">Today's Entry ✍️</h2>
 
   <!-- 🌙 Sleep -->
   <div class="entry-section">
@@ -47,9 +47,11 @@
     <div class="grid-2">
       <select id="mood">
         <option value="">Select mood</option>
-        <option>😊 Happy</option>
-        <option>😐 Neutral</option>
-        <option>😔 Sad</option>
+        <option value="happy">😄 Happy</option>
+        <option value="neutral">😐 Neutral</option>
+        <option value="sad">😔 Sad</option>
+        <option value="angry">😠 Angry</option>
+        <option value="tired">😴 Tired</option>
       </select>
 
       <input type="number" id="rating" min="1" max="10" placeholder="Day rating (1-10)">

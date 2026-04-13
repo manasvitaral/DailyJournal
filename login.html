@@ -7,83 +7,40 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="auth-page login-bg">
 
   <div class="auth-container">
+    <div class="login-container">
 
-    <!-- LEFT SIDE ->
-    <div class="auth-left login-bg">
-      <!- <div class="auth-content">
-        <h2>Welcome Back</h2>
-        <p>
-          Access your journal, track entries, and continue your streak.
+      <h2>Login</h2>
+
+      <form id="loginForm">
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+
+        <button type="submit" class="btn-primary btn-block">
+          Login
+        </button>
+
+        <p class="login-text">
+          <a href="forgot-password.html">Forgot Password?</a>
         </p>
-      </div> -->
 
-      <div class="auth-left">
-        <img src="logo_img/login.jpeg" alt="Login Image">
-      </div>
-      
-    </div>
+        <p class="login-text">
+          No account? <a href="signup.html">Create Account</a>
+        </p>
 
-    <!-- RIGHT SIDE -->
-    <div class="auth-right">
-
-      <div class="login-container">
-        <h2>Login</h2>
-
-        <!-- FORM CONNECTED TO DATABASE -->
-        <form id="loginForm">
-
-          <!-- EMAIL (users.email) -->
-          <div class="form-group">
-            <label for="loginEmail">Email</label>
-            <input 
-              type="email" 
-              id="loginEmail" 
-              name="email"
-              placeholder="Enter your email"
-              required
-            >
-          </div>
-
-          <!-- PASSWORD (users.password) -->
-          <div class="form-group">
-            <label for="loginPassword">Password</label>
-            <input 
-              type="password" 
-              id="loginPassword" 
-              name="password"
-              placeholder="Enter your password"
-              required
-            >
-          </div>
-
-          <!-- SUBMIT -->
-          <button type="submit" class="btn-primary btn-block">
-            Login
-          </button>
-
-          <!-- EXTRA FEATURES (based on your tables) -->
-          <div class="extra-links">
-
-            <!-- password_resets table -->
-            <p class="signup-text">
-              <a href="forgot-password.html">Forgot Password?</a>
-            </p>
-
-            <!-- signup -->
-            <p class="signup-text">
-              No account? <a href="signup.html">Create Account</a>
-            </p>
-
-          </div>
-
-        </form>
-      </div>
+      </form>
 
     </div>
-
   </div>
 
   <script src="logic.js"></script>
