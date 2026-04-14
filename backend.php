@@ -396,6 +396,7 @@ if ($action === "getUser") {
 // ================= ENTRIES ==================
 
 // ================= SAVE ENTRY =================
+/*
 if ($action === "saveEntry") {
 
     if (!isset($_SESSION['user_id'])) {
@@ -405,6 +406,7 @@ if ($action === "saveEntry") {
 
     $userId = $_SESSION['user_id'];
     /* $date = date("Y-m-d"); */
+    /*
     $date = $_POST['entry_date'] ?? date("Y-m-d");
 
     if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $date)) {
@@ -526,6 +528,178 @@ if ($action === "saveEntry") {
 
     exit; 
                     }    
+*/
+
+if ($action === "saveEntry") {
+
+    if (!isset($_SESSION['user_id'])) {
+        echo json_encode(["success" => false, "message" => "Unauthorized"]);
+        exit;
+    }
+
+    $userId = $_SESSION['user_id'];
+    $date = $_POST['entry_date'] ?? date("Y-m-d");
+
+    // Validate date
+    if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $date)) {
+        echo json_encode(["success" => false, "message" => "Invalid date"]);
+        exit;
+    }
+
+    // ===== SAFE INPUTS =====
+    function val($key, $default = null) {
+        return isset($_POST[$key]) && $_POST[$key] !== "" ? $_POST[$key] : $default;
+    }
+
+    $wake_time = val("wake_time");
+    $sleep_duration = val("sleep_duration");
+    $sleep_quality = val("sleep_quality");
+
+    $mood = val("mood");
+    $rating = val("rating");
+
+    $water_intake = val("water_intake", 0);
+
+    $breakfast = val("breakfast", 0);
+    $breakfast_rating = val("breakfast_rating");
+    $breakfast_note = val("breakfast_note");
+
+    $lunch = val("lunch", 0);
+    $lunch_rating = val("lunch_rating");
+    $lunch_note = val("lunch_note");
+
+    $dinner = val("dinner", 0);
+    $dinner_rating = val("dinner_rating");
+    $dinner_note = val("dinner_note");
+
+    $exercise_duration = val("exercise_duration");
+    $exercise_type = val("exercise_type");
+
+    $activities = val("activities");
+    $custom_activity = val("custom_activity");
+
+    $gratitude1 = val("gratitude1");
+    $gratitude2 = val("gratitude2");
+    $gratitude3 = val("gratitude3");
+
+    $journal_text = val("journal_text");
+    $daily_prompt = val("daily_prompt");
+
+    // ===== IMAGE HANDLING =====
+    $imagePath = null;
+
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+
+        $uploadDir = "uploads/entries/";
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
+        $fileName = "entry_" . $userId . "_" . time() . ".jpg";
+        $target = $uploadDir . $fileName;
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target)) {
+            $imagePath = $target;
+        }
+    }
+
+    // ===== KEEP OLD IMAGE IF NOT UPDATED =====
+    if (!$imagePath) {
+        $stmt = $conn->prepare("SELECT image_path FROM entries WHERE user_id=? AND entry_date=?");
+        $stmt->bind_param("is", $userId, $date);
+        $stmt->execute();
+        $res = $stmt->get_result()->fetch_assoc();
+        $imagePath = $res['image_path'] ?? null;
+    }
+
+    // ===== UPSERT QUERY =====
+    $stmt = $conn->prepare("INSERT INTO entries (user_id, entry_date, wake_time, sleep_duration, 
+    sleep_quality, mood, rating, water_intake, breakfast, breakfast_rating, breakfast_note, lunch, 
+    lunch_rating, lunch_note, dinner, dinner_rating, dinner_note, exercise_duration, exercise_type,
+    activities, custom_activity, gratitude1, gratitude2, gratitude3, journal_text, daily_prompt,
+    image_path ) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE 
+    wake_time=VALUES(wake_time), sleep_duration=VALUES(sleep_duration), sleep_quality=VALUES(sleep_quality),
+    mood=VALUES(mood), rating=VALUES(rating), water_intake=VALUES(water_intake), breakfast=VALUES(breakfast),
+    breakfast_rating=VALUES(breakfast_rating), breakfast_note=VALUES(breakfast_note), lunch=VALUES(lunch),
+    lunch_rating=VALUES(lunch_rating), lunch_note=VALUES(lunch_note), dinner=VALUES(dinner),
+    dinner_rating=VALUES(dinner_rating), dinner_note=VALUES(dinner_note), exercise_duration=VALUES(exercise_duration),
+    exercise_type=VALUES(exercise_type), activities=VALUES(activities), custom_activity=VALUES(custom_activity),
+    gratitude1=VALUES(gratitude1), gratitude2=VALUES(gratitude2), gratitude3=VALUES(gratitude3),
+    journal_text=VALUES(journal_text),daily_prompt=VALUES(daily_prompt), image_path=VALUES(image_path)");
+
+    $stmt->bind_param("issssssiiisssiiissssissssss",
+    $userId, $date, $wake_time, $sleep_duration, $sleep_quality, $mood, $rating, $water_intake, $breakfast,
+    $breakfast_rating, $breakfast_note, $lunch, $lunch_rating, $lunch_note, $dinner, $dinner_rating, 
+    $dinner_note, $exercise_duration, $exercise_type, $activities, $custom_activity, $gratitude1,
+    $gratitude2, $gratitude3, $journal_text, $daily_prompt, $imagePath );
+
+    if ($stmt->execute()) {
+        // ===== UPDATE STREAK =====
+        updateStreak($conn, $userId, $date);
+
+        echo json_encode(["success" => true]);
+    } else {
+        echo json_encode([
+            "success" => false,
+            "error" => $stmt->error
+        ]);
+    }
+
+    exit;
+}
+
+// ================== STREAKS ==================
+
+function updateStreak($conn, $userId, $entryDate) {
+
+    // Get last streak data
+    $stmt = $conn->prepare("
+        SELECT current_streak, last_entry_date 
+        FROM streaks 
+        WHERE user_id = ?
+    ");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+
+    $currentStreak = $result['current_streak'] ?? 0;
+    $lastDate = $result['last_entry_date'] ?? null;
+
+    // Convert dates
+    $today = new DateTime($entryDate);
+
+    if ($lastDate) {
+        $last = new DateTime($lastDate);
+        $diff = $last->diff($today)->days;
+
+        if ($entryDate === $lastDate) {
+            // Same day → do nothing (important!)
+            return;
+        }
+
+        if ($diff === 1) {
+            // Continue streak
+            $currentStreak++;
+        } elseif ($diff > 1) {
+            // Missed days → reset
+            $currentStreak = 1;
+        }
+    } else {
+        // First ever entry
+        $currentStreak = 1;
+    }
+
+    // Update DB
+    $stmt = $conn->prepare("
+        UPDATE streaks 
+        SET current_streak = ?, last_entry_date = ?
+        WHERE user_id = ?
+    ");
+    $stmt->bind_param("isi", $currentStreak, $entryDate, $userId);
+    $stmt->execute();
+}
+
+// ================== STREAKS ==================
 
 // ================= SAVE ENTRY =================
 
@@ -629,6 +803,49 @@ if ($action === "deleteEntry") {
 // ================= DELETE ENTRY =================
 
 // ================= ENTRIES ==================
+
+// ================= GET INSIGHTS DATA =================
+if ($action === "getInsightsData") {
+
+    if (!isset($_SESSION['user_id'])) {
+        echo json_encode(["success" => false]);
+        exit;
+    }
+
+    $userId = $_SESSION['user_id'];
+
+    $stmt = $conn->prepare("
+    SELECT 
+        entry_date,
+        mood,
+        sleep_duration,
+        sleep_quality,
+        rating,
+        breakfast,
+        lunch,
+        dinner
+    FROM entries
+    WHERE user_id = ?
+    ORDER BY entry_date ASC
+");
+
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $entries = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $entries[] = $row;
+    }
+
+    echo json_encode([
+        "success" => true,
+        "entries" => $entries
+    ]);
+    exit;
+}
+// ================= GET INSIGHTS DATA =================
 
 // ================= LOGOUT =================
 if ($action === "logout") {

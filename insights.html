@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Insights</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="insights-container">
+    <h1>📊 Your Insights</h1>
+
+    <div class="charts-grid">
+
+      <div class="chart-card">
+        <h3>Mood Distribution</h3>
+        <canvas id="moodChart"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Sleep Duration</h3>
+        <canvas id="sleepChart"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Sleep Quality Trend</h3>
+        <canvas id="sleepQualityChart"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Mood vs Sleep</h3>
+        <canvas id="moodSleepChart"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Mood vs Food</h3>
+        <canvas id="moodFoodChart"></canvas>
+      </div>
+
+    </div>
+
+    <button class="btn-primary insights-back-btn" onclick="goBack()">Back to Dashboard</button>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="logic.js"></script>
+
+</body>
+</html>

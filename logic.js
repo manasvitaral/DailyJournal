@@ -677,6 +677,331 @@ if (saveBtn) {
 
 // ================= ENTRIES =================
 
+//
+function goToInsights() {
+  window.location.href = "insights.html";
+}
+
+/*
+async function loadInsights() {
+  try {
+    const res = await fetch("backend.php?action=getInsightsData");
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    const entries = data.entries;
+
+    const moodCount = {};
+    const moodSleep = {};
+    const moodFood = {};
+    const moodQuality = {};
+
+    let totalSleep = 0;
+    let sleepDays = 0;
+
+    entries.forEach(e => {
+
+      const mood = e.mood?.toLowerCase()?.trim();
+      if (!mood) return;
+
+      // ===== MOOD COUNT =====
+      moodCount[mood] = (moodCount[mood] || 0) + 1;
+
+      // ===== SLEEP =====
+      if (e.sleep_duration !== null) {
+        const sleep = parseFloat(e.sleep_duration);
+        totalSleep += sleep;
+        sleepDays++;
+      }
+
+      // ===== MOOD vs SLEEP =====
+      if (e.sleep_duration !== null) {
+        if (!moodSleep[mood]) moodSleep[mood] = [];
+        moodSleep[mood].push(parseFloat(e.sleep_duration));
+      }
+
+      // ===== MOOD vs FOOD =====
+      const meals =
+        (e.breakfast == 1) +
+        (e.lunch == 1) +
+        (e.dinner == 1);
+
+      if (!moodFood[mood]) moodFood[mood] = [];
+      moodFood[mood].push(meals);
+
+      // ===== MOOD vs SLEEP QUALITY ⭐ (NEW) =====
+      if (e.sleep_quality !== null) {
+        if (!moodQuality[mood]) moodQuality[mood] = [];
+        moodQuality[mood].push(parseInt(e.sleep_quality));
+      }
+
+    });
+
+    // ===== HELPERS =====
+    const avg = arr => arr.reduce((a,b)=>a+b,0) / arr.length;
+
+    // ================= CHARTS =================
+
+    // 1. Mood Distribution
+    new Chart(document.getElementById("moodChart"), {
+      type: "pie",
+      data: {
+        labels: Object.keys(moodCount),
+        datasets: [{
+          data: Object.values(moodCount)
+        }]
+      }
+    });
+
+    // 2. Average Sleep
+    const avgSleep = sleepDays ? totalSleep / sleepDays : 0;
+
+    new Chart(document.getElementById("sleepChart"), {
+      type: "bar",
+      data: {
+        labels: ["Average Sleep"],
+        datasets: [{
+          label: "Hours",
+          data: [avgSleep]
+        }]
+      }
+    });
+
+    // 3. Mood vs Sleep
+    const moodSleepAvg = {};
+    for (let m in moodSleep) {
+      moodSleepAvg[m] = avg(moodSleep[m]);
+    }
+
+    new Chart(document.getElementById("moodSleepChart"), {
+      type: "bar",
+      data: {
+        labels: Object.keys(moodSleepAvg),
+        datasets: [{
+          label: "Avg Sleep",
+          data: Object.values(moodSleepAvg)
+        }]
+      }
+    });
+
+    // 4. Mood vs Food
+    const moodFoodAvg = {};
+    for (let m in moodFood) {
+      moodFoodAvg[m] = avg(moodFood[m]);
+    }
+
+    new Chart(document.getElementById("moodFoodChart"), {
+      type: "bar",
+      data: {
+        labels: Object.keys(moodFoodAvg),
+        datasets: [{
+          label: "Meals per Day",
+          data: Object.values(moodFoodAvg)
+        }]
+      }
+    });
+
+    // ⭐ BONUS (high-value chart)
+    // 5. Mood vs Sleep Quality
+    const moodQualityAvg = {};
+    for (let m in moodQuality) {
+      moodQualityAvg[m] = avg(moodQuality[m]);
+    }
+
+    new Chart(document.getElementById("moodQualityChart"), {
+      type: "bar",
+      data: {
+        labels: Object.keys(moodQualityAvg),
+        datasets: [{
+          label: "Sleep Quality",
+          data: Object.values(moodQualityAvg)
+        }]
+      }
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+*/
+
+async function loadInsights() {
+  const res = await fetch("backend.php?action=getInsightsData");
+  const data = await res.json();
+
+  if (!data.success) {
+    alert("Failed to load insights");
+    return;
+  }
+
+  const entries = data.entries;
+
+  const moodCount = {};
+  const sleepData = [];
+  const sleepQualityData = [];
+  const moodSleepMap = {};
+  const moodFoodMap = {};
+
+  entries.forEach(e => {
+    const mood = (e.mood || "unknown").toLowerCase();
+
+    // Mood count
+    moodCount[mood] = (moodCount[mood] || 0) + 1;
+
+    // Sleep Duration
+    if (e.sleep_duration) {
+      sleepData.push({
+        x: e.entry_date,
+        y: parseFloat(e.sleep_duration)
+      });
+
+      if (!moodSleepMap[mood]) moodSleepMap[mood] = [];
+      moodSleepMap[mood].push(parseFloat(e.sleep_duration));
+    }
+
+    //Sleep Quality
+    if (e.sleep_quality) {
+      const quality = parseInt(e.sleep_quality);
+      
+      if (!isNaN(quality)) {
+        sleepQualityData.push({
+          x: e.entry_date,
+          y: quality
+        });
+      }
+    }
+
+    // Food
+    const meals =
+      (e.breakfast ? 1 : 0) +
+      (e.lunch ? 1 : 0) +
+      (e.dinner ? 1 : 0);
+
+    if (!moodFoodMap[mood]) moodFoodMap[mood] = [];
+    moodFoodMap[mood].push(meals);
+  });
+
+  createMoodChart(moodCount);
+  createSleepChart(sleepData);
+  createSleepQualityChart(sleepQualityData);
+  createMoodSleepChart(moodSleepMap);
+  createMoodFoodChart(moodFoodMap);
+}
+
+function createMoodChart(moodCount) {
+  new Chart(document.getElementById("moodChart"), {
+    type: "doughnut",
+    data: {
+      labels: Object.keys(moodCount),
+      datasets: [{
+        data: Object.values(moodCount)
+      }]
+    }
+  });
+}
+
+function createSleepChart(data) {
+  new Chart(document.getElementById("sleepChart"), {
+    type: "line",
+    data: {
+      datasets: [{
+        label: "Hours Slept",
+        data: data
+      }]
+    },
+    options: {
+      parsing: {
+        xAxisKey: "x",
+        yAxisKey: "y"
+      }
+    }
+  });
+}
+
+function createSleepQualityChart(data) {
+  new Chart(document.getElementById("sleepQualityChart"), {
+    type: "line",
+    data: {
+      datasets: [{
+        label: "Sleep Quality (1–5)",
+        data: data
+      }]
+    },
+    options: {
+      parsing: {
+        xAxisKey: "x",
+        yAxisKey: "y"
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
+            callback: val => val + "⭐"
+          }
+        }
+      }
+    }
+  });
+}
+
+function createMoodSleepChart(map) {
+  const labels = [];
+  const values = [];
+
+  for (let mood in map) {
+    const avg =
+      map[mood].reduce((a, b) => a + b, 0) / map[mood].length;
+    labels.push(mood);
+    values.push(avg.toFixed(2));
+  }
+
+  new Chart(document.getElementById("moodSleepChart"), {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Avg Sleep",
+        data: values
+      }]
+    }
+  });
+}
+
+function createMoodFoodChart(map) {
+  const labels = [];
+  const values = [];
+
+  for (let mood in map) {
+    const avg =
+      map[mood].reduce((a, b) => a + b, 0) / map[mood].length;
+    labels.push(mood);
+    values.push(avg.toFixed(2));
+  }
+
+  new Chart(document.getElementById("moodFoodChart"), {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Meals per Day",
+        data: values
+      }]
+    }
+  });
+}
+
+function goBack() {
+  window.location.href = "dashboard.html";
+}
+
+if (document.getElementById("moodChart")) {
+  loadInsights();
+}
+
+//
+
 // Logout
 const logoutBtn = document.getElementById("logoutBtn");
 

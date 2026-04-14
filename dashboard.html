@@ -25,6 +25,8 @@
     <h1>Daily Journal</h1>
     
     <div class="nav-right">
+
+      <button onclick="goToInsights()" class="insights-btn">📊 Insights</button>
       
       <!-- USER INFO (optional: name beside avatar) -->
       <span id="userName">Loading...</span>
@@ -38,6 +40,10 @@
           <button id="logoutBtn">🚪 Logout</button>
         </div>
       </div>
+
+      <!--
+      <button onclick="goToInsights()" class="insights-btn">📊 Insights</button>
+    -->
 
     </div>
   </nav>
@@ -70,6 +76,11 @@
         </div>
 
   <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+<div class="insights-card" onclick="goToInsights()">
+  <h3>📊 View Insights</h3>
+  <p>Track your mood, sleep, and habits over time</p>
 </div>
 
       <!--

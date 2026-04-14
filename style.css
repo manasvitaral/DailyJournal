@@ -272,6 +272,11 @@ input:focus {
   align-items: center;
   gap: 12px;
   position: relative;
+  justify-content: flex-end; /* ensures everything stays right */
+}
+
+#userName {
+  font-weight: 500;
 }
 
 /* Avatar */
@@ -329,6 +334,18 @@ input:focus {
 .dropdown-menu button:hover {
   background: var(--bg-section);
 }
+
+/* Insights */
+
+.insights-btn {
+  background: #D5B2A7;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Insights */
 
 /* ==== NAVIGATION ===== */
 
@@ -426,6 +443,19 @@ input:focus {
 }
 
 /* ====== CALENDAR ENTRY ===== */
+
+/* ===== INSIGHTS CARD ======*/
+
+.insights-card {
+  margin-top: 20px;
+  padding: 20px;
+  background: #EBE3E0;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* ===== INSIGHTS CARD ======*/
 
 /* ===== DASHBOARD ===== */
 
@@ -527,6 +557,57 @@ input:focus {
 }
 
 /* ===== ENTRY ===== */
+
+/* ===== INSIGHTS PAGE ===== */
+
+.insights-container {
+  padding: 30px;
+  text-align: center;
+}
+
+.insights-container h1 {
+  margin-bottom: 20px;
+}
+
+/* Grid for charts */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Chart cards (reusing your design system) */
+.chart-card {
+  background: var(--bg-card);
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid var(--border);
+  height: 280px; /* slightly smaller than before */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Chart title */
+.chart-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+/* Canvas sizing */
+.chart-card canvas {
+  max-height: 200px;
+}
+
+/* Back button (reuse primary style but adjust width) */
+.insights-back-btn {
+  margin-top: 25px;
+  width: auto;
+  padding: 10px 20px;
+}
+
+/* ===== INSIGHTS PAGE ===== */
 
 /* ===== MOBILE ===== */
 
