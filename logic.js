@@ -677,7 +677,8 @@ if (saveBtn) {
 
 // ================= ENTRIES =================
 
-//
+// ================== INSIGHTS ================
+
 function goToInsights() {
   window.location.href = "insights.html";
 }
@@ -1000,7 +1001,149 @@ if (document.getElementById("moodChart")) {
   loadInsights();
 }
 
-//
+// ================== INSIGHTS ================
+
+//  OTP TOGETHER
+
+let userEmail = "";
+
+// ================= SEND OTP =================
+const forgotForm = document.getElementById("forgotForm");
+
+forgotForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value;
+  userEmail = email;
+
+  const formData = new FormData();
+  formData.append("email", email);
+
+  const res = await fetch("backend.php?action=sendOTP", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  alert(data.message);
+
+  // ✅ DEBUG OTP
+  if (data.debug_otp) {
+    console.log("OTP:", data.debug_otp);
+  }
+
+  if (data.success) {
+    // 🔄 Switch UI (no redirect)
+    forgotForm.style.display = "none";
+    document.getElementById("otpForm").style.display = "block";
+  }
+});
+
+// ================= VERIFY OTP =================
+const otpForm = document.getElementById("otpForm");
+
+otpForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const otp = document.getElementById("otp").value;
+  const password = document.getElementById("password").value;
+
+  const formData = new FormData();
+  formData.append("email", userEmail);
+  formData.append("otp", otp);
+  formData.append("password", password);
+
+  const res = await fetch("backend.php?action=verifyOTP", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  alert(data.message);
+
+  if (data.success) {
+    window.location.href = "login.html";
+  }
+});
+// OTP TOGETHER
+
+// ==================== SEND OTP ====================
+/*
+const forgotForm = document.getElementById("forgotForm");
+
+if (forgotForm) {
+  forgotForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+
+    const formData = new FormData();
+    formData.append("email", email);
+
+    const res = await fetch("backend.php?action=sendOTP", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    // ⭐ For testing
+    if (data.debug_otp) {
+      console.log("OTP:", data.debug_otp);
+    }
+
+    /*
+    if (data.success) {
+      window.location.href = `verify-otp.html?email=${email}`;
+    }
+      *
+     window.location.href = "verify-otp.html" ;
+  });
+}
+
+// ==================== SEND OTP ====================
+
+// ===================== VERIFY OTP ==================
+
+const otpForm = document.getElementById("otpForm");
+
+if (otpForm) {
+
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
+  document.getElementById("email").value = email;
+
+  otpForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const otp = document.getElementById("otp").value;
+    const password = document.getElementById("password").value;
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("otp", otp);
+    formData.append("password", password);
+
+    const res = await fetch("backend.php?action=verifyOTP", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    if (data.success) {
+      window.location.href = "login.html";
+    }
+  });
+}
+*/
+// ===================== VERIFY OTP ==================
 
 // Logout
 const logoutBtn = document.getElementById("logoutBtn");

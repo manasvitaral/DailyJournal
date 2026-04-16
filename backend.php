@@ -847,6 +847,103 @@ if ($action === "getInsightsData") {
 }
 // ================= GET INSIGHTS DATA =================
 
+// ================ OTP ==================
+
+if ($action === "sendOTP") {
+
+    $email = $_POST['email'] ?? "";
+
+    if (!$email) {
+        echo json_encode(["success" => false, "message" => "Email required"]);
+        exit;
+    }
+
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email=?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+        echo json_encode(["success" => false, "message" => "Email not found"]);
+        exit;
+    }
+
+    // 🔐 Generate 6-digit OTP
+    $otp = rand(100000, 999999);
+    $expires = date("Y-m-d H:i:s", strtotime("+5 minutes"));
+
+    // Save OTP
+    $stmt = $conn->prepare("UPDATE users SET otp_code=?, otp_expires=? WHERE email=?");
+    $stmt->bind_param("sss", $otp, $expires, $email);
+    $stmt->execute();
+
+    // 📧 Try sending email (may fail on InfinityFree)
+    $subject = "Your OTP Code";
+    $message = "Your OTP is: $otp (valid for 5 minutes)";
+    $headers = "From: no-reply@yourdomain.com";
+
+    //mail($email, $subject, $message, $headers);
+    if ($_SERVER['SERVER_NAME'] !== 'localhost') {
+        mail($email, $subject, $message, $headers);
+        }
+
+    echo json_encode([
+        "success" => true,
+        "message" => "OTP sent",
+        "debug_otp" => $otp // ⭐ IMPORTANT (for testing)
+    ]);
+
+    exit;
+}
+
+// ================ OTP ==================
+
+// ================== RESET PASSWORD =================
+
+if ($action === "verifyOTP") {
+
+    $email = $_POST['email'] ?? "";
+    $otp = $_POST['otp'] ?? "";
+    $password = $_POST['password'] ?? "";
+
+    if (!$email || !$otp || !$password) {
+        echo json_encode(["success" => false, "message" => "All fields required"]);
+        exit;
+    }
+
+    $stmt = $conn->prepare("
+        SELECT id FROM users 
+        WHERE email=? AND otp_code=? AND otp_expires > NOW()
+    ");
+    $stmt->bind_param("ss", $email, $otp);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+        echo json_encode(["success" => false, "message" => "Invalid or expired OTP"]);
+        exit;
+    }
+
+    $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare("
+        UPDATE users 
+        SET password=?, otp_code=NULL, otp_expires=NULL 
+        WHERE email=?
+    ");
+    $stmt->bind_param("ss", $hashed, $email);
+    $stmt->execute();
+
+    echo json_encode([
+        "success" => true,
+        "message" => "Password reset successful"
+    ]);
+
+    exit;
+}
+
+// ================== RESET PASSWORD =================
+
 // ================= LOGOUT =================
 if ($action === "logout") {
     session_destroy();
