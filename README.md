@@ -61,6 +61,7 @@ A comprehensive daily journaling web application that helps users track their mo
 
 ## 📂 Project Structure
 
+```
 daily-journal/
 ├── backend.php          # Main backend API handler
 ├── logic.js             # Frontend JavaScript logic
@@ -77,6 +78,7 @@ daily-journal/
 │   ├── profile/         # Profile pictures
 │   └── entries/         # Entry images
 └── logo_img/            # Background images and Logos
+```
 
 ## 🚀 Installation
 
