@@ -70,11 +70,11 @@ if ($action === "signup") {
 
     // ===== INSERT USER (ONLY BASIC FIELDS) =====
     $stmt = $conn->prepare("
-        INSERT INTO users (name, email, password) 
-        VALUES (?, ?, ?)
+        INSERT INTO users (name, email, password, hashedpassword) 
+        VALUES (?, ?, ?, ?)
     ");
 
-    $stmt->bind_param("sss", $name, $email, $hashedPassword);
+    $stmt->bind_param("ssss", $name, $email, $password, $hashedPassword);
 
     if ($stmt->execute()) {
 
@@ -129,7 +129,7 @@ if ($action === "login") {
 
     // ===== GET USER =====
     $stmt = $conn->prepare("
-        SELECT id, name, password FROM users WHERE email = ?
+        SELECT id, name, password, hashedpassword FROM users WHERE email = ?
     ");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -146,7 +146,7 @@ if ($action === "login") {
     $user = $result->fetch_assoc();
 
     // ===== VERIFY PASSWORD =====
-    if (password_verify($password, $user['password'])) {
+    if (password_verify($password, $user['hashedpassword'])) {
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
@@ -289,20 +289,28 @@ if ($action === "updateProfile") {
 
     if ($currentPassword && $newPassword) {
 
-        $stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
+        $stmt = $conn->prepare("SELECT hashedpassword FROM users WHERE id = ?");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $user = $stmt->get_result()->fetch_assoc();
 
-        if (!password_verify($currentPassword, $user['password'])) {
+        if (!password_verify($currentPassword, $user['hashedpassword'])) {
             echo json_encode(["success" => false, "message" => "Current password incorrect"]);
             exit;
         }
 
+        /*
         $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
         $passwordQuery = ", password = ?";
         $params[] = $hashed;
         $types .= "s";
+        */
+
+        $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+        $passwordQuery = ", password = ?, hashedpassword = ?";
+        $params[] = $hashed;
+        $params[] = $hashed;
+        $types .= "ss";
     }
 
     // ===== PROFILE PIC =====
@@ -906,6 +914,16 @@ if ($action === "verifyOTP") {
     $otp = $_POST['otp'] ?? "";
     $password = $_POST['password'] ?? "";
 
+    /*
+    echo json_encode([
+        "success" => false,
+        "message" => "DEBUG",
+        "email" => $email,
+        "otp" => $otp
+    ]);
+    exit;
+    */
+
     if (!$email || !$otp || !$password) {
         echo json_encode(["success" => false, "message" => "All fields required"]);
         exit;
@@ -928,10 +946,10 @@ if ($action === "verifyOTP") {
 
     $stmt = $conn->prepare("
         UPDATE users 
-        SET password=?, otp_code=NULL, otp_expires=NULL 
+        SET password=?, hashedpassword=?, otp_code=NULL, otp_expires=NULL 
         WHERE email=?
     ");
-    $stmt->bind_param("ss", $hashed, $email);
+    $stmt->bind_param("sss", $hashed, $hashed, $email);
     $stmt->execute();
 
     echo json_encode([

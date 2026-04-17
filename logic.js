@@ -1010,63 +1010,92 @@ let userEmail = "";
 // ================= SEND OTP =================
 const forgotForm = document.getElementById("forgotForm");
 
-forgotForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if(forgotForm) {
+  forgotForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById("email").value;
+    //userEmail = email;
+    localStorage.setItem("resetEmail", email);
 
-  const email = document.getElementById("email").value;
-  userEmail = email;
+    const formData = new FormData();
+    formData.append("email", email);
 
-  const formData = new FormData();
-  formData.append("email", email);
+    const res = await fetch("backend.php?action=sendOTP", {
+      method: "POST",
+      body: formData
+    });
 
-  const res = await fetch("backend.php?action=sendOTP", {
-    method: "POST",
-    body: formData
+    const data = await res.json();
+
+    alert(data.message);
+
+    // ✅ DEBUG OTP
+    if (data.debug_otp) {
+      console.log("OTP:", data.debug_otp);
+    }
+
+    if (data.success) {
+      // 🔄 Switch UI (no redirect)
+      forgotForm.style.display = "none";
+      document.getElementById("otpForm").style.display = "block";
+    }
   });
-
-  const data = await res.json();
-
-  alert(data.message);
-
-  // ✅ DEBUG OTP
-  if (data.debug_otp) {
-    console.log("OTP:", data.debug_otp);
-  }
-
-  if (data.success) {
-    // 🔄 Switch UI (no redirect)
-    forgotForm.style.display = "none";
-    document.getElementById("otpForm").style.display = "block";
-  }
-});
+}
 
 // ================= VERIFY OTP =================
 const otpForm = document.getElementById("otpForm");
 
-otpForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if(otpForm){
+  otpForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const otp = document.getElementById("otp").value;
-  const password = document.getElementById("password").value;
+    /*
+    const otp = document.getElementById("otp").value.trim();
+    const password = document.getElementById("password").value;
 
-  const formData = new FormData();
-  formData.append("email", userEmail);
-  formData.append("otp", otp);
-  formData.append("password", password);
+    const formData = new FormData();
+    //formData.append("email", userEmail);
+    const email = localStorage.getItem("resetEmail");
+    formData.append("email", email);
+  
+    formData.append("otp", otp);
+    formData.append("password", password);
+    */
 
-  const res = await fetch("backend.php?action=verifyOTP", {
-    method: "POST",
-    body: formData
+    const otp = document.getElementById("otp").value.trim();
+    const password = document.getElementById("password").value;
+
+    const email = localStorage.getItem("resetEmail");
+
+    console.log("EMAIL:", email);
+    console.log("OTP:", otp);
+
+    if (!email) {
+      alert("Session expired. Please request OTP again.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("otp", otp);
+    formData.append("password", password);
+
+    const res = await fetch("backend.php?action=verifyOTP", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+    if (data.success) {
+      localStorage.removeItem("resetEmail"); // cleanup
+      window.location.href = "login.html";
+    }
   });
-
-  const data = await res.json();
-
-  alert(data.message);
-
-  if (data.success) {
-    window.location.href = "login.html";
-  }
-});
+}
 // OTP TOGETHER
 
 // ==================== SEND OTP ====================
