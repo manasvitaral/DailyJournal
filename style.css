@@ -69,7 +69,7 @@ nav h1 {
   text-decoration: none;
 }
 
-/* HERO */
+/* HERO *
 .hero {
   display: flex;
   align-items: center;
@@ -105,6 +105,57 @@ nav h1 {
   border: 1px solid var(--border);
   width: 300px;
 }
+*/
+
+/* ==== HERO ==== */
+
+.hero {
+  padding: 60px 8%;
+  background: var(--bg-main);
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+/* LEFT SIDE */
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h2 {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+}
+
+.hero-text p {
+  margin: 20px 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* RIGHT SIDE */
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* BUTTONS */
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+/* ==== HERO ==== */
 
 /* FEATURES */
 .features {
@@ -257,6 +308,119 @@ input:focus {
 /* ===== AUTH FULL PAGE ===== */
 
 /* ===== DASHBOARD ===== */
+
+/* ==== ICONS ==== */
+
+.icon {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* Align icon + text nicely */
+.insights-btn,
+.dropdown-menu button,
+.card-title {
+  /*display: flex;*/
+  align-items: center;
+  gap: 8px;
+}
+
+/* Optional: slightly bigger icons in cards */
+.card-title .icon {
+  width: 30px;
+  height: 30px;
+}
+
+/*
+.icon {
+  vertical-align: middle;
+}
+*/
+
+/* Greeting icon */
+.greeting-icon {
+  width: 30px;
+  height: 30px;
+  margin-left: 6px;
+}
+
+/* Streak icon */
+.streak-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+}
+
+/* Base icon *
+.icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+*/
+
+/* Insight Page title */
+.page-title {
+  /*display: flex;*/
+  align-items: center;
+  gap: 10px;
+}
+
+.title-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Chart titles */
+.chart-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Optional: slightly bigger icons in cards */
+.chart-title .icon {
+  width: 35px;
+  height: 35px;
+}
+
+/*
+.icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+*/
+
+/* Entry's Section titles */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Bigger icon for main title */
+.entry-title-icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* Calendar */
+.mood-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.mood-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* ==== ICONS ==== */
 
 .dashboard-nav {
   display: flex;
@@ -629,6 +793,18 @@ input:focus {
 
 /* Mobile */
 @media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-image img {
+    max-width: 300px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
   .grid-2,
   .grid-3 {
     grid-template-columns: 1fr;

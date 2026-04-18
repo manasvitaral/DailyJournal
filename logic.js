@@ -151,8 +151,12 @@ async function loadUser() {
 
     
     document.getElementById("userName").innerText = data.user.name;
-    document.getElementById("streakText").innerText =
-      "🔥 Current streak: " + data.streak.current_streak + " days";
+    /*document.getElementById("streakText").innerText =
+      "🔥 Current streak: " + data.streak.current_streak + " days";*/
+    /* 🔥 STREAK (replace emoji with image) */
+    document.getElementById("streakText").innerHTML =
+    `<img src="logo_img/streaks.png" class="icon streak-icon">
+    Current streak: ${data.streak.current_streak} days`;
     
     // GREETING 
     const hour = new Date().getHours();
@@ -162,7 +166,11 @@ async function loadUser() {
     else if (hour < 18) greeting = "Good Afternoon";
     else greeting = "Good Evening";
 
-    document.getElementById("greetingText").innerText = greeting + ", " + data.user.name + " 👋";
+    /*document.getElementById("greetingText").innerText = greeting + ", " + data.user.name + " 👋";*/
+    /* Replace emoji with image */
+    document.getElementById("greetingText").innerHTML =
+    `${greeting}, ${data.user.name}
+    <img src="logo_img/welcome.png" class="icon greeting-icon">`;
 
   } catch (error) {
     console.error(error);
@@ -274,6 +282,7 @@ if (document.getElementById("profileForm")) {
 let currentDate = new Date();
 let entriesData = [];
 
+/*
 const moodEmojiMap = {
   "😄 happy": "😄",
   "😐 neutral": "😐",
@@ -285,6 +294,15 @@ const moodEmojiMap = {
   "sad": "😔",
   "angry": "😠",
   "tired": "😴"
+};
+*/
+
+const moodIconMap = {
+  happy: "logo_img/happy.png",
+  neutral: "logo_img/neutral.png",
+  sad: "logo_img/sad.png",
+  angry: "logo_img/angry.png",
+  tired: "logo_img/tired.png"
 };
 
 const moodColorMap = {
@@ -394,8 +412,17 @@ function renderCalendar() {
         const moodKey = entry.mood.toLowerCase().trim();
 
         // Emoji
+        /*
         if (moodEmojiMap[moodKey]) {
           emoji = `<div class="mood-emoji">${moodEmojiMap[moodKey]}</div>`;
+        }
+        */
+        if (moodIconMap[moodKey]) {
+          emoji = `
+          <div class="mood-icon-wrapper">
+          <img src="${moodIconMap[moodKey]}" class="mood-icon">
+          </div>
+          `;
         }
 
         // Background color
@@ -455,7 +482,17 @@ function openSelectedDate() {
 async function loadEntryByDate() {
   /* const date = getSelectedDate(); */
   const date = getSelectedDate();
-  document.getElementById("entryTitle").innerText = `Entry for ${date} ✍️`;
+
+  const formattedDate = new Date(date).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+  /*document.getElementById("entryTitle").innerText = `Entry for ${date} ✍️`;*/
+  document.getElementById("entryTitle").innerHTML = `
+  <span>Entry for ${formattedDate}</span>
+  <img src="logo_img/writing.png" class="icon title-icon">
+`;
 
   const res = await fetch("backend.php?action=getEntries");
   const data = await res.json();

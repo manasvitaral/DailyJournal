@@ -26,7 +26,11 @@
     
     <div class="nav-right">
 
-      <button onclick="goToInsights()" class="insights-btn">📊 Insights</button>
+      <!--<button onclick="goToInsights()" class="insights-btn">📊 Insights</button>-->
+      <button onclick="goToInsights()" class="insights-btn">
+        <img src="logo_img/insights.png" class="icon">
+        <span>Insights</span>
+      </button>
       
       <!-- USER INFO (optional: name beside avatar) -->
       <span id="userName">Loading...</span>
@@ -51,7 +55,11 @@
   <!-- MAIN -->
   <div class="dashboard-container">
 
-    <h2 id="greetingText">Welcome 👋</h2>
+    <!--<h2 id="greetingText">Welcome 👋</h2>-->
+    <h2 id="greetingText" class="greeting">
+      <span>Welcome</span>
+      <img src="logo_img/welcome.png" class="icon greeting-icon">
+    </h2>
 
     <div class="dashboard-cards">
 
@@ -79,7 +87,11 @@
 </div>
 
 <div class="insights-card" onclick="goToInsights()">
-  <h3>📊 View Insights</h3>
+  <!--<h3>📊 View Insights</h3>-->
+  <h3 class="card-title">
+    <img src="logo_img/insights.png" class="icon">
+    <span>View Insights</span>
+  </h3>
   <p>Track your mood, sleep, and habits over time</p>
 </div>
 
