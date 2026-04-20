@@ -25,25 +25,28 @@ body {
   min-height: 100vh;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR (Landing) ===== */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 60px;
   border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 nav div {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 nav h1 {
   font-size: 24px;
 }
 
-/* BUTTONS */
+/* ===== BUTTONS ===== */
 .btn-primary {
   display: inline-block;
   background: var(--accent);
@@ -55,6 +58,7 @@ nav h1 {
   cursor: pointer;
   text-align: center;
   width: 100%;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
@@ -67,48 +71,13 @@ nav h1 {
   border-radius: 25px;
   color: var(--text-primary);
   text-decoration: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
-/* HERO *
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 100px 60px;
-  gap: 60px;
-}
-
-.hero-text {
-  max-width: 520px;
-}
-
-.hero-text h2 {
-  font-size: 42px;
-  margin-bottom: 20px;
-}
-
-.hero-text p {
-  color: var(--text-secondary);
-  margin-bottom: 30px;
-  line-height: 1.7;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 15px;
-}
-
-.hero-card {
-  background: var(--bg-card);
-  padding: 30px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  width: 300px;
-}
-*/
-
-/* ==== HERO ==== */
-
+/* ===== HERO ===== */
 .hero {
   padding: 60px 8%;
   background: var(--bg-main);
@@ -121,7 +90,6 @@ nav h1 {
   gap: 40px;
 }
 
-/* LEFT SIDE */
 .hero-text {
   flex: 1;
 }
@@ -137,7 +105,6 @@ nav h1 {
   line-height: 1.6;
 }
 
-/* RIGHT SIDE */
 .hero-image {
   flex: 1;
   display: flex;
@@ -149,23 +116,26 @@ nav h1 {
   max-width: 400px;
 }
 
-/* BUTTONS */
 .hero-buttons {
   display: flex;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
-/* ==== HERO ==== */
-
-/* FEATURES */
+/* ===== FEATURES ===== */
 .features {
   padding: 60px;
   text-align: center;
 }
 
+.features h3 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
@@ -176,14 +146,23 @@ nav h1 {
   border: 1px solid var(--border);
 }
 
-/* CTA */
+/* ===== CTA ===== */
 .cta {
   background: var(--bg-section);
   padding: 60px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-/* FOOTER */
+.cta .btn-primary {
+  width: auto;
+  min-width: 180px;
+}
+
+/* ===== FOOTER ===== */
 footer {
   text-align: center;
   padding: 20px;
@@ -192,17 +171,16 @@ footer {
   color: var(--text-secondary);
 }
 
-/* ===== AUTH FULL PAGE ===== */
-
+/* ===== AUTH PAGES ===== */
 .auth-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  padding: 20px;
 }
 
-/* BACKGROUNDS */
 .login-bg {
   background: url("logo_img/login.jpeg") no-repeat center/cover;
 }
@@ -211,7 +189,6 @@ footer {
   background: url("logo_img/signup.jpeg") no-repeat center/cover;
 }
 
-/* OVERLAY */
 .auth-page::before {
   content: "";
   position: absolute;
@@ -219,7 +196,6 @@ footer {
   background: rgba(0, 0, 0, 0.4);
 }
 
-/* CENTER */
 .auth-container {
   position: relative;
   z-index: 1;
@@ -228,7 +204,6 @@ footer {
   justify-content: center;
 }
 
-/* CARD */
 .login-container {
   background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(10px);
@@ -244,7 +219,6 @@ footer {
   margin-bottom: 25px;
 }
 
-/* FORM */
 .form-group {
   margin-bottom: 18px;
 }
@@ -266,13 +240,13 @@ input {
   border: 1px solid var(--border);
   background: var(--bg-main);
   outline: none;
+  font-size: 14px;
 }
 
 input:focus {
   border-color: var(--accent);
 }
 
-/* LINKS */
 .signup-text {
   text-align: center;
   margin-top: 15px;
@@ -305,12 +279,7 @@ input:focus {
   text-decoration: underline;
 }
 
-/* ===== AUTH FULL PAGE ===== */
-
-/* ===== DASHBOARD ===== */
-
-/* ==== ICONS ==== */
-
+/* ===== ICONS ===== */
 .icon {
   width: 25px;
   height: 25px;
@@ -318,52 +287,31 @@ input:focus {
   vertical-align: middle;
 }
 
-/* Align icon + text nicely */
 .insights-btn,
 .dropdown-menu button,
 .card-title {
-  /*display: flex;*/
   align-items: center;
   gap: 8px;
 }
 
-/* Optional: slightly bigger icons in cards */
 .card-title .icon {
   width: 30px;
   height: 30px;
 }
 
-/*
-.icon {
-  vertical-align: middle;
-}
-*/
-
-/* Greeting icon */
 .greeting-icon {
   width: 30px;
   height: 30px;
   margin-left: 6px;
 }
 
-/* Streak icon */
 .streak-icon {
   width: 30px;
   height: 30px;
   margin-right: 6px;
 }
 
-/* Base icon *
-.icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-}
-*/
-
-/* Insight Page title */
 .page-title {
-  /*display: flex;*/
   align-items: center;
   gap: 10px;
 }
@@ -373,41 +321,28 @@ input:focus {
   height: 30px;
 }
 
-/* Chart titles */
 .chart-title {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Optional: slightly bigger icons in cards */
 .chart-title .icon {
   width: 35px;
   height: 35px;
 }
 
-/*
-.icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-}
-*/
-
-/* Entry's Section titles */
 .section-title {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Bigger icon for main title */
 .entry-title-icon {
   width: 40px;
   height: 40px;
 }
 
-/* Calendar */
 .mood-icon-wrapper {
   display: flex;
   justify-content: center;
@@ -420,30 +355,35 @@ input:focus {
   object-fit: contain;
 }
 
-/* ==== ICONS ==== */
-
+/* ===== DASHBOARD NAV ===== */
 .dashboard-nav {
   display: flex;
   justify-content: space-between;
-  padding: 20px 40px;
+  align-items: center;
+  padding: 16px 40px;
   border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-/* ===== NAVIGATION ====== */
+.dashboard-nav h1 {
+  font-size: 20px;
+}
 
 .nav-right {
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
-  justify-content: flex-end; /* ensures everything stays right */
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
 #userName {
   font-weight: 500;
+  font-size: 14px;
 }
 
-/* Avatar */
 .nav-profile-pic {
   width: 42px;
   height: 42px;
@@ -458,12 +398,10 @@ input:focus {
   transform: scale(1.05);
 }
 
-/* Wrapper */
 .avatar-wrapper {
   position: relative;
 }
 
-/* Dropdown */
 .dropdown-menu {
   position: absolute;
   top: 55px;
@@ -479,12 +417,10 @@ input:focus {
   z-index: 100;
 }
 
-/* Show dropdown */
 .dropdown-menu.show {
   display: flex;
 }
 
-/* Buttons inside */
 .dropdown-menu button {
   background: none;
   border: none;
@@ -493,13 +429,12 @@ input:focus {
   cursor: pointer;
   border-radius: 8px;
   transition: background 0.2s;
+  font-size: 14px;
 }
 
 .dropdown-menu button:hover {
   background: var(--bg-section);
 }
-
-/* Insights */
 
 .insights-btn {
   background: #D5B2A7;
@@ -507,22 +442,29 @@ input:focus {
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
-/* Insights */
+/* Entry page nav actions */
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-/* ==== NAVIGATION ===== */
-
+/* ===== DASHBOARD CONTAINER ===== */
 .dashboard-container {
   padding: 40px;
 }
 
-/*
-.dashboard-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}*/
+.greeting {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
 
 .dashboard-cards {
   display: flex;
@@ -530,7 +472,6 @@ input:focus {
   gap: 20px;
 }
 
-/* TOP ROW (2 cards only) */
 .top-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -544,8 +485,16 @@ input:focus {
   border: 1px solid var(--border);
 }
 
-/* ====== CALENDAR ENTRY ===== */
+.card h3 {
+  margin-bottom: 8px;
+}
 
+.card p {
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+}
+
+/* ===== CALENDAR ===== */
 .calendar-card {
   width: 100%;
 }
@@ -563,25 +512,27 @@ input:focus {
   padding: 6px 10px;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  gap: 6px;
 }
 
 .calendar-day {
-  padding: 10px;
+  padding: 8px 4px;
   text-align: center;
   border-radius: 8px;
   cursor: pointer;
   background: var(--bg-section);
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 44px;
 }
 
 .calendar-day:hover {
@@ -593,12 +544,12 @@ input:focus {
 }
 
 .has-entry {
-  background: #c8e6c9; /* green */
+  background: #c8e6c9;
 }
 
 .mood-emoji {
-  font-size: 16px;
-  margin-top: 4px;
+  font-size: 14px;
+  margin-top: 2px;
 }
 
 .future {
@@ -606,29 +557,21 @@ input:focus {
   pointer-events: none;
 }
 
-/* ====== CALENDAR ENTRY ===== */
-
-/* ===== INSIGHTS CARD ======*/
-
+/* ===== INSIGHTS CARD (Dashboard) ===== */
 .insights-card {
-  margin-top: 20px;
+  margin-top: 0;
   padding: 20px;
   background: #EBE3E0;
   border-radius: 12px;
   cursor: pointer;
   text-align: center;
-  border: 1px solid var(--border);;
+  border: 1px solid var(--border);
 }
 
-/* ===== INSIGHTS CARD ======*/
-
-/* ===== DASHBOARD ===== */
-
 /* ===== PROFILE ===== */
-
 .profile-container {
-  /*max-width: 500px;*/
   width: 100%;
+  max-width: 540px;
   margin: 40px auto;
   background: var(--bg-card);
   padding: 30px;
@@ -644,18 +587,21 @@ input:focus {
 #profilePreview {
   height: 110px;
   width: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
 }
 
 #profilePic {
   height: 50px;
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
 }
-/* ===== PROFILE ===== */
 
 /* ===== ENTRY ===== */
-
 .entry-container {
   width: 100%;
+  max-width: 760px;
   margin: 40px auto;
   padding: 30px;
   background: var(--bg-card);
@@ -665,6 +611,10 @@ input:focus {
 
 .entry-section {
   margin-bottom: 25px;
+}
+
+.entry-section h3 {
+  margin-bottom: 12px;
 }
 
 .grid-2 {
@@ -688,6 +638,12 @@ input:focus {
   border: 1px solid var(--border);
   background: var(--bg-main);
   margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.entry-container textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 .image-preview {
@@ -713,6 +669,13 @@ input:focus {
   gap: 8px;
 }
 
+.activity-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
 .meal-fields {
   display: none;
 }
@@ -721,10 +684,7 @@ input:focus {
   display: block;
 }
 
-/* ===== ENTRY ===== */
-
 /* ===== INSIGHTS PAGE ===== */
-
 .insights-container {
   padding: 30px;
   text-align: center;
@@ -734,31 +694,23 @@ input:focus {
   margin-bottom: 20px;
 }
 
-/* Grid for charts */
 .charts-grid {
   display: grid;
-  /*grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));*/
-  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-  /*gap: 20px;*/
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  /*justify-items: center;  center cards */
 }
 
-/* Chart cards (reusing your design system) */
 .chart-card {
   background: var(--bg-card);
   padding: 12px;
   border-radius: 15px;
   border: 1px solid var(--border);
-
-  width: 100%;              /* fill grid cell */
-  aspect-ratio: 1 / 1;      /* perfect square cards */
-
+  width: 100%;
+  aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
 }
 
-/* Chart title */
 .chart-card h3 {
   font-size: 14px;
   margin-bottom: 6px;
@@ -766,55 +718,17 @@ input:focus {
   flex-shrink: 0;
 }
 
-/* Canvas sizing */
 .chart-card canvas {
-  flex: 1;          /* take remaining space */
+  flex: 1;
   width: 100% !important;
   height: 100% !important;
 }
 
-/* Back button (reuse primary style but adjust width) */
 .insights-back-btn {
   margin-top: 25px;
   width: auto;
   padding: 10px 20px;
 }
-
-/* ===== INSIGHTS PAGE ===== */
-
-/* ===== RESPONSIVE ===== */
-
-/* Tablet *
-@media (max-width: 1024px) {
-  .charts-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Mobile *
-@media (max-width: 768px) {
-  .hero-container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .hero-image img {
-    max-width: 300px;
-  }
-
-  .hero-buttons {
-    justify-content: center;
-  }
-  .grid-2,
-  .grid-3 {
-    grid-template-columns: 1fr;
-  }
-
-  .charts-grid {
-    grid-template-columns: 1fr; /* 1 card per row *
-  }
-}
-*/
 
 /* ===================================================
    RESPONSIVE BREAKPOINTS
@@ -1086,10 +1000,6 @@ input:focus {
 
   .insights-container {
     padding: 14px;
-  }
-
-  .charts-grid {
-    grid-template-columns: 1fr;
   }
 
   .chart-card {
