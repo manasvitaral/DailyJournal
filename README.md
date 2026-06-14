@@ -84,7 +84,7 @@ daily-journal/
 
 1. Clone the repository
 
-git clone https://github.com/yourusername/daily-journal.git
+git clone https://github.com/mansvitaral/daily-journal.git
 
 2. Move to your web server directory
 
