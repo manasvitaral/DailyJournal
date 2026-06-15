@@ -7,6 +7,12 @@ A comprehensive daily journaling web application that helps users track their mo
 
 ## ✨ Features
 
+### Landing Page
+
+**Landing Page**
+<img width="1333" height="529" alt="image" src="https://github.com/user-attachments/assets/ce29934a-0ff3-42d8-b73f-cc5cdafb4989" />
+<img width="1331" height="467" alt="image" src="https://github.com/user-attachments/assets/d6bf3669-de1a-47d8-a0f4-120f163c2250" />
+
 ### 🔐 Authentication
 - User registration with password validation (minimum 8 characters, uppercase & number required)
 - Secure login with password hashing
