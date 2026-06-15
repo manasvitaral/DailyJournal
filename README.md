@@ -5,6 +5,9 @@
 
 A comprehensive daily journaling web application that helps users track their mood, sleep, meals, exercise, and overall well-being. Built with HTML, CSS, JavaScript, and PHP with MySQL database.
 
+## 🌟 Live Demo
+https://unspoken-whispers.infinityfreeapp.com
+
 ## ✨ Features
 
 ### Landing Page
