@@ -12,11 +12,21 @@ A comprehensive daily journaling web application that helps users track their mo
 - Secure login with password hashing
 - Session management
 
+**Login Page**
+<img width="1365" height="599" alt="image" src="https://github.com/user-attachments/assets/a9166ca5-a5cf-49f7-9cb3-d6d8175e3804" />
+
+**Signup Page**
+<img width="1365" height="600" alt="image" src="https://github.com/user-attachments/assets/8f16d2fd-78b6-4b9e-9c31-e6a6905c15f7" />
+
 ### 📊 Dashboard
 - Personalized greeting based on time of day
 - Streak tracking (consecutive journal entries)
 - Interactive calendar view showing journal entries by date
 - Mood-based color coding and emoji indicators on calendar
+
+**Dashboard**
+<img width="1344" height="637" alt="image" src="https://github.com/user-attachments/assets/28babe0b-68a2-4507-b937-40a0fb02c845" />
+<img width="1339" height="634" alt="image" src="https://github.com/user-attachments/assets/8fdf12f2-fcbd-40be-b52d-9fcd62b42722" />
 
 ### ✍️ Journal Entry
 - Sleep tracking (wake time, duration, quality)
@@ -30,10 +40,20 @@ A comprehensive daily journaling web application that helps users track their mo
 - Journal text and daily prompt
 - Image upload for entries
 
+**Journal Entry**
+<img width="1339" height="636" alt="image" src="https://github.com/user-attachments/assets/71a6eef2-f022-4256-8f51-0ee04fa3bd5f" />
+<img width="1333" height="634" alt="image" src="https://github.com/user-attachments/assets/c05cece1-13f2-4e25-a84a-3d7e163f3072" />
+<img width="1335" height="633" alt="image" src="https://github.com/user-attachments/assets/68791531-45b2-4561-a50c-a54358ab6f7a" />
+<img width="1337" height="338" alt="image" src="https://github.com/user-attachments/assets/73bb1482-9dce-4f3b-9e30-69a8d4d73e2f" />
+
 ### 👤 Profile Management
 - Update personal information (name, email, DOB, gender)
 - Profile picture upload
 - Change password with current password verification
+
+**Profile**
+<img width="1338" height="632" alt="image" src="https://github.com/user-attachments/assets/6905c7e5-fa36-4c0b-82b5-2ce27134cc0a" />
+<img width="1344" height="393" alt="image" src="https://github.com/user-attachments/assets/b6e173e4-7a6d-4e0d-9b84-ccefc0c79d2a" />
 
 ### 📈 Insights & Analytics
 - Mood distribution chart (doughnut)
@@ -41,6 +61,10 @@ A comprehensive daily journaling web application that helps users track their mo
 - Sleep quality trend (1-5 scale)
 - Mood vs Sleep correlation bar chart
 - Mood vs Meals per day correlation
+
+**Insights**
+<img width="1335" height="610" alt="image" src="https://github.com/user-attachments/assets/c656a0fc-f848-4f93-87b0-fafc61bd5114" />
+<img width="1330" height="603" alt="image" src="https://github.com/user-attachments/assets/1c81d0b0-253b-4174-9c37-fa8c981f31b0" />
 
 ### 🔄 Additional Features
 - Logout functionality
