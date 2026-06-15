@@ -11,7 +11,6 @@ A comprehensive daily journaling web application that helps users track their mo
 - User registration with password validation (minimum 8 characters, uppercase & number required)
 - Secure login with password hashing
 - Session management
-- Password reset via OTP (with email support)
 
 ### 📊 Dashboard
 - Personalized greeting based on time of day
